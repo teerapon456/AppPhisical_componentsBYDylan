@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เบิกอุปกรณ์กายภาพ รพ.ดำเนินสะดวก</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">การคำนวณขนาดอุปกรณ์</h1>
+        <p class="text-center text-gray-600 mb-8">
+            เลือกอุปกรณ์และกรอกข้อมูลเพื่อดูผลลัพธ์
+        </p>
+
+        <!-- Container for input fields -->
+        <div class="space-y-6">
+
+            <!-- Device selection dropdown -->
+            <div>
+                <label for="deviceName" class="block text-sm font-medium text-gray-700 mb-1">
+                    ชื่ออุปกรณ์
+                </label>
+                <select id="deviceName" onchange="toggleInputs(); calculateSize();" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm transition-colors duration-200 ease-in-out hover:border-indigo-400">
+                    <option value="">เลือกอุปกรณ์</option>
+                    <option value="ไม้ค้ำยัน (Crutches)">ไม้ค้ำยัน (Crutches)</option>
+                    <option value="เฝือกอ่อนพยุงคอ (Soft collar)">เฝือกอ่อนพยุงคอ (Soft collar)</option>
+                    <option value="อุปกรณ์พยุงข้อไหล่หลวม (Bobath sling)">อุปกรณ์พยุงข้อไหล่หลวม (Bobath sling)</option>
+                    <option value="อุปกรณ์พยุงแขน (Arm sling)">อุปกรณ์พยุงแขน (Arm sling)</option>
+                    <option value="อุปกรณ์พยุงหลังแบบถอดสายได้ (Back support)">อุปกรณ์พยุงหลังแบบถอดสายได้ (Back support)</option>
+                    <option value="อุปกรณ์พยุงหลังและสะโพก (Lumbar support)">อุปกรณ์พยุงหลังและสะโพก (Lumbar support)</option>
+                    <option value="อุปกรณ์เสริมโครงพยุงลำตัว (Knight Taylor brace)">อุปกรณ์เสริมโครงพยุงลำตัว (Knight Taylor brace)</option>
+                    <option value="อุปกรณ์ดามกันปลายเท้าตกแบบบุนุ่ม (Ankle Foot Orthosis with Underpad)">อุปกรณ์ดามกันปลายเท้าตกแบบบุนุ่ม (Ankle Foot Orthosis with Underpad)</option>
+                    <option value="สายรัดพยุงปลายเท้า (Foot sling)">สายรัดพยุงปลายเท้า (Foot sling)</option>
+                    <option value="อุปกรณ์ช่วยพยุงหลังป้องกันและควบคุมการโค้งงอของกระดูกสันหลังมาด้านหน้า (Jewett brace)">อุปกรณ์ช่วยพยุงหลังป้องกันและควบคุมการโค้งงอของกระดูกสันหลังมาด้านหน้า (Jewett brace)</option>
+                    <option value="อุปกรณ์พยุงเข่าปรับองศา (Hinge knee support)">อุปกรณ์พยุงเข่าปรับองศา (Hinge knee support)</option>
+                    <option value="ปลอกคอแบบช่องเจาะคอ (Philadelphia Collar)">ปลอกคอแบบช่องเจาะคอ (Philadelphia Collar)</option>
+                    <option value="อุปกรณ์พยุงไหปลาร้า (Clavicle Splint)">อุปกรณ์พยุงไหปลาร้า (Clavicle Splint)</option>
+                </select>
+            </div>
+
+            <!-- Input for Height (cm) -->
+            <div id="height-input-group">
+                <label for="heightCm" id="height-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    ส่วนสูง (cm)
+                </label>
+                <input type="number" id="heightCm" oninput="calculateSize();" placeholder="กรอกส่วนสูงเป็นเซนติเมตร" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ease-in-out disabled:bg-gray-100 disabled:text-gray-400" disabled>
+            </div>
+
+            <!-- Input for Size (cm) -->
+            <div id="size-cm-input-group">
+                <label for="sizeCm" id="size-cm-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    ขนาด (cm)
+                </label>
+                <input type="number" id="sizeCm" oninput="calculateSize();" placeholder="กรอกขนาดเป็นเซนติเมตร" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ease-in-out disabled:bg-gray-100 disabled:text-gray-400" disabled>
+            </div>
+
+            <!-- Input for Size (inch) -->
+            <div id="size-inch-input-group">
+                <label for="sizeInch" id="size-inch-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    ขนาด (นิ้ว)
+                </label>
+                <input type="number" id="sizeInch" oninput="calculateSize();" placeholder="กรอกขนาดเป็นนิ้ว" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ease-in-out disabled:bg-gray-100 disabled:text-gray-400" disabled>
+            </div>
+        </div>
+
+        <!-- Result display section -->
+        <div class="mt-8 text-center p-4 bg-gray-100 rounded-md shadow-inner border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">ผลลัพธ์:</h3>
+            <div id="result" class="space-y-2">
+                <div class="text-3xl font-bold text-gray-400">-</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+        const measurementLabels = {
+            'เฝือกอ่อนพยุงคอ (Soft collar)': 'รอบคอ (cm)',
+            'อุปกรณ์พยุงข้อไหล่หลวม (Bobath sling)': 'รอบต้นแขน (cm)',
+            'อุปกรณ์พยุงแขน (Arm sling)': 'ความยาวท่อนแขนล่างจากปลายนิ้วก้อยถึงข้อศอก (cm)',
+            'อุปกรณ์พยุงหลังแบบถอดสายได้ (Back support)': 'รอบสะโพก (cm)',
+            'อุปกรณ์พยุงหลังและสะโพก (Lumbar support)': 'รอบสะโพก (cm)',
+            'อุปกรณ์เสริมโครงพยุงลำตัว (Knight Taylor brace)': 'รอบสะโพก (cm)',
+            'อุปกรณ์ดามกันปลายเท้าตกแบบบุนุ่ม (Ankle Foot Orthosis with Underpad)': 'ขนาดรองเท้า (cm)',
+            'สายรัดพยุงปลายเท้า (Foot sling)': 'รอบน่อง (cm)',
+            'อุปกรณ์ช่วยพยุงหลังป้องกันและควบคุมการโค้งงอของกระดูกสันหลังมาด้านหน้า (Jewett brace)': 'รอบอกใต้รวมนม (cm)',
+            'อุปกรณ์พยุงเข่าปรับองศา (Hinge knee support)': 'รอบหัวเข่า (cm)',
+            'ปลอกคอแบบช่องเจาะคอ (Philadelphia Collar)': 'รอบคอ (cm)',
+            'อุปกรณ์พยุงไหปลาร้า (Clavicle Splint)': 'รอบอกใต้รวมนม (cm)',
+        };
+        
+        // Data mapping from the updated device information with both cm and inch
+        const deviceData = {
+            'เฝือกอ่อนพยุงคอ (Soft collar)': [
+                { size: 'S', cm: { min: 38, max: 41 }, inch: { min: 15, max: 16.1 } },
+                { size: 'M', cm: { min: 41, max: 45 }, inch: { min: 16.1, max: 17.5 } },
+                { size: 'L', cm: { min: 45, max: 52 }, inch: { min: 17.5, max: 20.5 } }
+            ],
+            'อุปกรณ์พยุงข้อไหล่หลวม (Bobath sling)': [
+                { size: 'S', cm: { min: 24, max: 28 }, inch: { min: 9.5, max: 11 } },
+                { size: 'M', cm: { min: 28, max: 32 }, inch: { min: 11, max: 12.5 } },
+                { size: 'L', cm: { min: 32, max: 36 }, inch: { min: 12.5, max: 14.2 } },
+                { size: 'XL', cm: { min: 36, max: 40 }, inch: { min: 14.2, max: 15.7 } }
+            ],
+            'อุปกรณ์พยุงแขน (Arm sling)': [
+                { size: 'S', cm: { min: 34, max: 38 }, inch: { min: 13.5, max: 15 } },
+                { size: 'M', cm: { min: 38, max: 42 }, inch: { min: 15, max: 16.5 } },
+                { size: 'L', cm: { min: 42, max: 46 }, inch: { min: 16.5, max: 18 } },
+                { size: 'XL', cm: { min: 46, max: 50 }, inch: { min: 18, max: 19.5 } }
+            ],
+            'อุปกรณ์พยุงหลังแบบถอดสายได้ (Back support)': [
+                { size: 'S', cm: { min: 71.2, max: 81.2 }, inch: { min: 28, max: 32 } },
+                { size: 'M', cm: { min: 81.2, max: 91.5 }, inch: { min: 32, max: 36 } },
+                { size: 'L', cm: { min: 91.5, max: 101.6 }, inch: { min: 36, max: 40 } },
+                { size: 'XL', cm: { min: 101.6, max: 111.8 }, inch: { min: 40, max: 44 } },
+                { size: 'XXL', cm: { min: 111.8, max: 122 }, inch: { min: 44, max: 48 } },
+                { size: 'XXXL', cm: { min: 122, max: 132.1 }, inch: { min: 48, max: 52 } }
+            ],
+            'อุปกรณ์พยุงหลังและสะโพก (Lumbar support)': [
+                { size: 'S', cm: { min: 71.2, max: 81.2 }, inch: { min: 28, max: 32 } },
+                { size: 'M', cm: { min: 81.2, max: 91.5 }, inch: { min: 32, max: 36 } },
+                { size: 'L', cm: { min: 91.5, max: 101.6 }, inch: { min: 36, max: 40 } },
+                { size: 'XL', cm: { min: 101.6, max: 111.8 }, inch: { min: 40, max: 44 } },
+                { size: 'XXL', cm: { min: 111.8, max: 122 }, inch: { min: 44, max: 48 } }
+            ],
+            'อุปกรณ์เสริมโครงพยุงลำตัว (Knight Taylor brace)': [
+                { size: 'S', cm: { min: 41.9, max: 47 }, inch: { min: 16.5, max: 18.5 } },
+                { size: 'M', cm: { min: 47, max: 52.1 }, inch: { min: 18.5, max: 20.5 } },
+                { size: 'L', cm: { min: 54.6, max: 57.2 }, inch: { min: 21.5, max: 22.5 } }
+            ],
+            'อุปกรณ์ดามกันปลายเท้าตกแบบบุนุ่ม (Ankle Foot Orthosis with Underpad)': [
+                { size: 'S', cm: { min: 20, max: 23 }, inch: { min: 7.9, max: 9.1 } },
+                { size: 'M', cm: { min: 23, max: 25 }, inch: { min: 9.1, max: 9.8 } },
+                { size: 'L', cm: { min: 25, max: 27 }, inch: { min: 9.8, max: 10.6 } },
+                { size: 'XL', cm: { min: 27, max: 29 }, inch: { min: 10.6, max: 11.4 } }
+            ],
+            'สายรัดพยุงปลายเท้า (Foot sling)': [
+                { size: 'S', cm: { min: 23, max: 29 }, inch: { min: 9, max: 11.4 } },
+                { size: 'M', cm: { min: 29, max: 35 }, inch: { min: 11.4, max: 13.7 } },
+                { size: 'L', cm: { min: 35, max: 42 }, inch: { min: 13.7, max: 16.5 } }
+            ],
+            'อุปกรณ์ช่วยพยุงหลังป้องกันและควบคุมการโค้งงอของกระดูกสันหลังมาด้านหน้า (Jewett brace)': [
+                { size: 'S', cm: { min: 60, max: 70 }, inch: { min: 24, max: 28 } },
+                { size: 'M', cm: { min: 70, max: 90 }, inch: { min: 28, max: 35.4 } },
+                { size: 'L', cm: { min: 90, max: 105 }, inch: { min: 35.4, max: 41.3 } },
+                { size: 'XL', cm: { min: 105, max: 120 }, inch: { min: 41.3, max: 47.2 } }
+            ],
+            'อุปกรณ์พยุงเข่าปรับองศา (Hinge knee support)': [
+                { size: 'S', cm: { min: 26.7, max: 31.7 }, inch: { min: 10.5, max: 12.5 } },
+                { size: 'M', cm: { min: 31.7, max: 36.8 }, inch: { min: 12.5, max: 14.5 } },
+                { size: 'L', cm: { min: 36.8, max: 41.9 }, inch: { min: 14.5, max: 16.5 } },
+                { size: 'XL', cm: { min: 41.9, max: 47 }, inch: { min: 16.5, max: 18.5 } }
+            ],
+            'ปลอกคอแบบช่องเจาะคอ (Philadelphia Collar)': [
+                { size: 'S', cm: { min: 0, max: 0 }, inch: { min: 0, max: 0 } }, // ข้อมูลยังไม่ครบ
+                { size: 'M', cm: { min: 0, max: 0 }, inch: { min: 0, max: 0 } },
+                { size: 'L', cm: { min: 0, max: 0 }, inch: { min: 0, max: 0 } },
+                { size: 'XL', cm: { min: 0, max: 0 }, inch: { min: 0, max: 0 } }
+            ],
+            'อุปกรณ์พยุงไหปลาร้า (Clavicle Splint)': [
+                { size: 'C', cm: { min: 22, max: 26 }, inch: { min: 8.7, max: 10.2 } },
+                { size: 'S', cm: { min: 26, max: 30 }, inch: { min: 10.2, max: 11.8 } },
+                { size: 'M', cm: { min: 30, max: 34 }, inch: { min: 11.8, max: 13.4 } },
+                { size: 'L', cm: { min: 34, max: 38 }, inch: { min: 13.4, max: 15 } },
+                { size: 'XL', cm: { min: 38, max: 42 }, inch: { min: 15, max: 16.5 } }
+            ]
+        };
+
+        function toggleInputs() {
+            const deviceName = document.getElementById('deviceName').value;
+            const sizeCmInput = document.getElementById('sizeCm');
+            const sizeInchInput = document.getElementById('sizeInch');
+            const heightCmInput = document.getElementById('heightCm');
+            const sizeCmLabel = document.getElementById('size-cm-label');
+            const sizeInchLabel = document.getElementById('size-inch-label');
+            const heightLabel = document.getElementById('height-label');
+
+            // Reset all inputs and labels
+            sizeCmInput.disabled = true;
+            sizeCmInput.value = '';
+            sizeInchInput.disabled = true;
+            sizeInchInput.value = '';
+            heightCmInput.disabled = true;
+            heightCmInput.value = '';
+            sizeCmLabel.textContent = 'ขนาด (cm)';
+            sizeInchLabel.textContent = 'ขนาด (นิ้ว)';
+            heightLabel.textContent = 'ส่วนสูง (cm)';
+
+            // Enable and update labels based on selected device
+            if (deviceName === 'ไม้ค้ำยัน (Crutches)') {
+                heightCmInput.disabled = false;
+            } else if (deviceData[deviceName]) {
+                sizeCmInput.disabled = false;
+                sizeInchInput.disabled = false;
+                if (measurementLabels[deviceName]) {
+                    sizeCmLabel.textContent = measurementLabels[deviceName];
+                    sizeInchLabel.textContent = measurementLabels[deviceName].replace('(cm)', '(นิ้ว)');
+                }
+            }
+        }
+
+        async function saveToGoogleSheet(data) {
+            try {
+                // Ensure the URL is replaced with your actual Apps Script URL
+                if (GOOGLE_APPS_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    console.error('Please replace the placeholder URL with your actual Google Apps Script URL.');
+                    return;
+                }
+
+                await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log('Data sent to Google Sheet successfully!');
+            } catch (error) {
+                console.error('Error sending data to Google Sheet:', error);
+            }
+        }
+
+        function calculateSize() {
+            const deviceName = document.getElementById('deviceName').value;
+            const heightCm = document.getElementById('heightCm').value;
+            const sizeCm = document.getElementById('sizeCm').value;
+            const sizeInch = document.getElementById('sizeInch').value;
+            let result = '';
+            let dataToSave = {};
+
+            if (deviceName === 'ไม้ค้ำยัน (Crutches)') {
+                const height = parseFloat(heightCm);
+                if (!isNaN(height)) {
+                    if (height <= 131) result = '34';
+                    else if (height >= 132 && height <= 136) result = '36';
+                    else if (height >= 137 && height <= 141) result = '38';
+                    else if (height >= 142 && height <= 146) result = '40';
+                    else if (height >= 147 && height <= 151) result = '42';
+                    else if (height >= 152 && height <= 156) result = '44';
+                    else if (height >= 157 && height <= 161) result = '46';
+                    else if (height >= 162 && height <= 166) result = '48';
+                    else if (height >= 167 && height <= 171) result = '50';
+                    else if (height >= 172 && height <= 176) result = '52';
+                    else if (height >= 177 && height <= 181) result = '54';
+                    else if (height >= 182) result = '56';
+                }
+                dataToSave = {
+                    date: new Date().toLocaleString(),
+                    deviceName: deviceName,
+                    heightCm: heightCm,
+                    sizeCm: '',
+                    sizeInch: '',
+                    size: result
+                };
+            } else if (deviceData[deviceName]) {
+                const data = deviceData[deviceName];
+                const cmValue = parseFloat(sizeCm);
+                const inchValue = parseFloat(sizeInch);
+
+                // ตรวจสอบว่าอุปกรณ์มีข้อมูลครบหรือไม่
+                const hasValidData = data.some(item => item.cm.min > 0 && item.cm.max > 0);
+                
+                if (!hasValidData) {
+                    result = `ข้อมูลขนาดสำหรับ ${deviceName} ยังไม่ครบถ้วน กรุณาติดต่อผู้ดูแลระบบ`;
+                } else {
+                    // Logic to prioritize CM input, or fall back to Inches if CM is empty
+                    // โค้ดส่วนนี้จะตรวจสอบว่ามีการกรอกข้อมูลในช่องขนาด (cm) หรือไม่
+                    // ถ้ามีการกรอกค่า ระบบจะใช้ค่านั้นในการคำนวณ
+                    // ถ้าไม่มีการกรอกค่า (cm) ระบบจะไปตรวจสอบและใช้ค่าจากช่องขนาด (นิ้ว) แทน
+                    if (!isNaN(cmValue) && cmValue > 0) {
+                        for (const item of data) {
+                            if (cmValue >= item.cm.min && cmValue <= item.cm.max) {
+                                result = item.size;
+                                break;
+                            }
+                        }
+                        // ถ้าไม่พบขนาดที่เหมาะสม ให้แสดงข้อความแจ้งเตือน
+                        if (!result) {
+                            const validData = data.filter(item => item.cm.min > 0 && item.cm.max > 0);
+                            const minSize = Math.min(...validData.map(item => item.cm.min));
+                            const maxSize = Math.max(...validData.map(item => item.cm.max));
+                            const minInch = Math.min(...validData.map(item => item.inch.min));
+                            const maxInch = Math.max(...validData.map(item => item.inch.max));
+                            result = `ขนาด ${cmValue} cm ไม่อยู่ในช่วงที่กำหนด (${minSize}-${maxSize} cm หรือ ${minInch}-${maxInch} นิ้ว)`;
+                        }
+                    } else if (!isNaN(inchValue) && inchValue > 0) {
+                        // ตรวจสอบทั้งจากข้อมูลนิ้วโดยตรงและแปลงเป็นเซนติเมตร
+                        for (const item of data) {
+                            // ตรวจสอบจากข้อมูลนิ้วโดยตรง
+                            if (inchValue >= item.inch.min && inchValue <= item.inch.max) {
+                                result = item.size;
+                                break;
+                            }
+                            // ตรวจสอบจากการแปลงเป็นเซนติเมตร
+                            const cmFromInch = inchValue * 2.54;
+                            if (cmFromInch >= item.cm.min && cmFromInch <= item.cm.max) {
+                                result = item.size;
+                                break;
+                            }
+                        }
+                        // ถ้าไม่พบขนาดที่เหมาะสม ให้แสดงข้อความแจ้งเตือน
+                        if (!result) {
+                            const validData = data.filter(item => item.cm.min > 0 && item.cm.max > 0);
+                            const minSize = Math.min(...validData.map(item => item.cm.min));
+                            const maxSize = Math.max(...validData.map(item => item.cm.max));
+                            const minInch = Math.min(...validData.map(item => item.inch.min));
+                            const maxInch = Math.max(...validData.map(item => item.inch.max));
+                            result = `ขนาด ${inchValue} นิ้ว ไม่อยู่ในช่วงที่กำหนด (${minInch}-${maxInch} นิ้ว หรือ ${minSize}-${maxSize} cm)`;
+                        }
+                    }
+                }
+                dataToSave = {
+                    date: new Date().toLocaleString(),
+                    deviceName: deviceName,
+                    heightCm: '',
+                    sizeCm: sizeCm,
+                    sizeInch: sizeInch,
+                    size: result
+                };
+            }
+
+            const resultElement = document.getElementById('result');
+            
+            // แสดงผลลัพธ์พร้อมข้อมูลเพิ่มเติม
+            if (result) {
+                // ตรวจสอบว่าเป็นข้อความแจ้งเตือนหรือผลลัพธ์ปกติ
+                const isWarning = result.includes('ไม่อยู่ในช่วงที่กำหนด') || result.includes('ยังไม่ครบถ้วน');
+                const isError = result.includes('ยังไม่ครบถ้วน');
+                
+                resultElement.innerHTML = `
+                    <div class="text-3xl font-bold ${isError ? 'text-red-700' : isWarning ? 'text-red-600' : 'text-indigo-600'} mb-3">
+                        ${isError ? result : isWarning ? result : `ขนาด ${result}`}
+                    </div>
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <div class="font-medium">อุปกรณ์: ${deviceName}</div>
+                        ${deviceName === 'ไม้ค้ำยัน (Crutches)' ? 
+                            `<div>ส่วนสูง: ${heightCm} cm</div>` : 
+                            `<div>ขนาดที่วัด: ${sizeCm ? sizeCm + ' cm' : ''} ${sizeInch ? sizeInch + ' นิ้ว' : ''}</div>
+                             <div class="text-xs text-gray-500 mt-1">
+                                 ${result && !result.includes('ไม่อยู่ในช่วง') && !result.includes('ยังไม่ครบถ้วน') ? 
+                                     `ช่วงขนาด: ${deviceData[deviceName] ? 
+                                         deviceData[deviceName].find(item => item.size === result) ? 
+                                             `${deviceData[deviceName].find(item => item.size === result).cm.min}-${deviceData[deviceName].find(item => item.size === result).cm.max} cm (${deviceData[deviceName].find(item => item.size === result).inch.min}-${deviceData[deviceName].find(item => item.size === result).inch.max} นิ้ว)` : 
+                                             '' : 
+                                         ''}` : 
+                                     ''}
+                             </div>`
+                        }
+                        <div class="text-xs ${isError ? 'text-red-700' : isWarning ? 'text-red-600' : 'text-green-600'} mt-2 flex items-center justify-center">
+                            <span class="mr-1">${isError ? '❌' : isWarning ? '⚠' : '✓'}</span> 
+                            ${isError ? 'ข้อมูลไม่ครบถ้วน' : isWarning ? 'กรุณาตรวจสอบขนาด' : 'คำนวณสำเร็จ'}
+                        </div>
+                    </div>
+                `;
+                
+                // เพิ่ม animation effect
+                resultElement.style.transform = 'scale(1.05)';
+                resultElement.style.transition = 'transform 0.3s ease';
+                setTimeout(() => {
+                    resultElement.style.transform = 'scale(1)';
+                }, 300);
+                
+                saveToGoogleSheet(dataToSave);
+            } else {
+                resultElement.innerHTML = `
+                    <div class="text-3xl font-bold text-gray-400 mb-2">-</div>
+                    <div class="text-sm text-gray-500">
+                        ${deviceName ? 'กรุณากรอกข้อมูลเพื่อดูผลลัพธ์' : 'กรุณาเลือกอุปกรณ์และกรอกข้อมูลเพื่อดูผลลัพธ์'}
+                    </div>
+                `;
+            }
+        }
+    </script>
+
+</body>
+</html>
