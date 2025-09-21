@@ -15,9 +15,9 @@
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">การคำนวณขนาดอุปกรณ์</h1>
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">ค้นหาขนาดกายอุปกรณ์</h1>
         <p class="text-center text-gray-600 mb-8">
-            เลือกอุปกรณ์และกรอกข้อมูลเพื่อดูผลลัพธ์
+            เลือกอุปกรณ์และกรอกข้อมูลเพื่อดูขนาดที่เหมาะสม
         </p>
 
         <!-- Container for input fields -->
@@ -73,7 +73,7 @@
 
         <!-- Result display section -->
         <div class="mt-8 text-center p-4 bg-gray-100 rounded-md shadow-inner border border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">ผลลัพธ์:</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">ไซส์ที่แนะนำ</h3>
             <div id="result" class="space-y-2">
                 <div class="text-3xl font-bold text-gray-400">-</div>
             </div>
@@ -167,7 +167,7 @@
                 { size: 'XL', cm: { min: 0, max: 0 }, inch: { min: 0, max: 0 } }
             ],
             'อุปกรณ์พยุงไหปลาร้า (Clavicle Splint)': [
-                { size: 'C', cm: { min: 22, max: 26 }, inch: { min: 8.7, max: 10.2 } },
+                { size: 'SS', cm: { min: 22, max: 26 }, inch: { min: 8.7, max: 10.2 } },
                 { size: 'S', cm: { min: 26, max: 30 }, inch: { min: 10.2, max: 11.8 } },
                 { size: 'M', cm: { min: 30, max: 34 }, inch: { min: 11.8, max: 13.4 } },
                 { size: 'L', cm: { min: 34, max: 38 }, inch: { min: 13.4, max: 15 } },
@@ -384,3 +384,4 @@
 
 </body>
 </html>
+
